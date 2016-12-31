@@ -1,0 +1,15 @@
+{
+    "name": "Avocet",
+    "repository": "https://github.com/donny/avocet",
+    "env": {
+        "ELM_COMPILE": "elm make Avocet.elm --output elm.js"
+    },
+    "buildpacks": [
+        {
+            "url": "https://github.com/srid/heroku-buildpack-elm.git"
+        },
+        {
+            "url": "https://github.com/hone/heroku-buildpack-static"
+        }
+    ]
+}
