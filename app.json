@@ -2,7 +2,7 @@
     "name": "Avocet",
     "repository": "https://github.com/donny/avocet",
     "env": {
-        "ELM_COMPILE": "elm make Avocet.elm --output elm.js"
+        "ELM_COMPILE": "elm make Avocet.elm"
     },
     "buildpacks": [
         {
