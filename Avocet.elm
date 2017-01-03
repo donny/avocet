@@ -8,6 +8,7 @@ import Material.Button as Button
 import Material.Options as Options exposing (css)
 import Material.Card as Card
 import Material.Typography as Typography
+import Material.Textfield as Textfield
 import Material.Options as Options
 import Material.Color as Color
 import Material.Icon as Icon
@@ -32,6 +33,7 @@ type alias Model =
     { mdl : Material.Model {- Boilerplate: model store for any and all Mdl components you use. -}
     , cards : List Card
     , count : Int
+    , address : String
     }
 
 
@@ -43,13 +45,14 @@ model =
         , { title = "Title2", text = "Text2" }
         , { title = "Title3", text = "Text3" }
         , { title = "Title4", text = "Text4" }
-        , { title = "Title5", text = "Text5" }
+        , { title = "Title5", text = "Non-alcoholic syrup used for both its tart and sweet flavour as well as its deep red color. Non-alcoholic syrup used for both its tart and sweet flavour as well as its deep red color." }
         , { title = "Title6", text = "Text6" }
         , { title = "Title7", text = "Text7" }
         , { title = "Title8", text = "Text8" }
         , { title = "Title9", text = "Text9" }
         ]
     , count = 0
+    , address = ""
     }
 
 
@@ -61,6 +64,7 @@ type Msg
     = Mdl (Material.Msg Msg) {- Boilerplate: Msg clause for internal Mdl messages. -}
     | Increase
     | Reset
+    | Input String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -80,6 +84,11 @@ update msg model =
             , Cmd.none
             )
 
+        Input str ->
+            ( { model | address = str }
+            , Cmd.none
+            )
+
 
 
 -- VIEW
@@ -93,9 +102,10 @@ viewCard : Card -> Html Msg
 viewCard card =
     Card.view
         [ css "width" "192px"
-        , css "height" "192px"
+          -- , css "height" "192px"
         , css "margin" "16px 16px 16px 16px"
         , Color.background (Color.color Color.LightBlue Color.S400)
+        , Options.onClick Increase
         ]
         [ Card.title [] [ Card.head [ white ] [ text card.title ] ]
         , Card.text [ Card.expand ] [ text card.text ]
@@ -124,6 +134,7 @@ view model =
     div
         [ style [ ( "padding", "2rem" ) ] ]
         ([ text ("Current count: " ++ toString model.count)
+         , text ("Address: " ++ toString model.address)
            {- We construct the instances of the Button component that we need, one
               for the increase button, one for the reset button. First, the increase
               button. The first three arguments are:
@@ -154,11 +165,19 @@ view model =
             model.mdl
             [ Options.onClick Reset ]
             [ text "Reset" ]
+         , Textfield.render Mdl
+            [ 2 ]
+            model.mdl
+            [ Textfield.label "Address"
+            , Textfield.floatingLabel
+            , Options.onInput Input
+            ]
+            []
          , Options.div
             [ css "display" "flex"
             , css "flex-flow" "row wrap"
             , css "justify-content" "flex-start"
-            , css "align-items" "flex-start"
+            , css "align-items" "center"
             , css "width" "100%"
             , css "margin-top" "4rem"
             ]
