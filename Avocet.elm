@@ -32,7 +32,8 @@ type alias Card =
 type alias Model =
     { mdl : Material.Model {- Boilerplate: model store for any and all Mdl components you use. -}
     , cards : List Card
-    , address : String
+    , address : Maybe String
+    , error : Maybe String
     }
 
 
@@ -50,7 +51,8 @@ model =
         , { title = "Title8", text = "Text8" }
         , { title = "Title9", text = "Text9" }
         ]
-    , address = ""
+    , address = Nothing
+    , error = Nothing
     }
 
 
@@ -71,7 +73,7 @@ update msg model =
             Material.update Mdl msg_ model
 
         ChangeAddress str ->
-            ( { model | address = str }
+            ( { model | address = Just str }
             , Cmd.none
             )
 
@@ -144,7 +146,14 @@ view model =
             [ Textfield.label "Address"
             , Textfield.floatingLabel
             , Textfield.text_
-            , Textfield.value model.address
+            , Textfield.value
+                (case model.address of
+                    Nothing ->
+                        ""
+
+                    Just address ->
+                        address
+                )
             , Options.onInput ChangeAddress
             ]
             []
