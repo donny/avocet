@@ -63,9 +63,9 @@ initialModel =
 -- ACTION, UPDATE
 
 
-initialCmd : Cmd Msg
-initialCmd =
-    "http://localhost:8000/data.json"
+initialCmd : String -> Cmd Msg
+initialCmd address =
+    address
         |> Http.getString
         |> Http.send (\result -> LoadData result)
 
@@ -73,6 +73,7 @@ initialCmd =
 type Msg
     = Mdl (Material.Msg Msg) {- Boilerplate: Msg clause for internal Mdl messages. -}
     | ChangeAddress String
+    | FetchData
     | LoadData (Result Http.Error String)
 
 
@@ -86,6 +87,17 @@ update msg model =
         ChangeAddress str ->
             ( { model | address = Just str }
             , Cmd.none
+            )
+
+        FetchData ->
+            ( model
+            , (case model.address of
+                Nothing ->
+                    Cmd.none
+
+                Just address ->
+                    initialCmd address
+              )
             )
 
         LoadData result ->
@@ -138,9 +150,11 @@ view : Model -> Html Msg
 view model =
     div
         [ style [ ( "padding", "2rem" ) ] ]
-        [ text model.temp
+        [ Options.styled p
+            [ Typography.subhead, Color.text (Color.color Color.Red Color.S500) ]
+            [ text ("Error: " ++ model.temp) ]
         , Options.styled p
-            [ Typography.subhead ]
+            [ Typography.subhead, Color.text Color.primary ]
             [ text "Enter the address to a JSON resource, for example, http://example.com/data.json." ]
           {- We construct the instances of the Button component that we need, one
              for the increase button, one for the reset button. First, the increase
@@ -180,7 +194,8 @@ view model =
         , Button.render Mdl
             [ 1 ]
             model.mdl
-            [ css "margin" "0 24px"
+            [ Options.onClick FetchData
+            , css "margin" "0 24px"
             ]
             [ text "Display Data" ]
         , Options.div
@@ -205,7 +220,7 @@ view model =
 main : Program Never Model Msg
 main =
     Html.program
-        { init = ( initialModel, initialCmd )
+        { init = ( initialModel, initialCmd "http://localhost:8000/data.json" )
         , update = update
         , subscriptions = always Sub.none
         , view = view
