@@ -12,6 +12,7 @@ import Material.Textfield as Textfield
 import Material.Options as Options
 import Material.Color as Color
 import Material.Icon as Icon
+import Http
 
 
 white : Options.Property c m
@@ -34,11 +35,12 @@ type alias Model =
     , cards : List Card
     , address : Maybe String
     , error : Maybe String
+    , temp : String
     }
 
 
-model : Model
-model =
+initialModel : Model
+initialModel =
     { mdl = Material.model {- Boilerplate: always use this initial Mdl model store. -}
     , cards =
         [ { title = "Title1", text = "Text1" }
@@ -53,6 +55,7 @@ model =
         ]
     , address = Nothing
     , error = Nothing
+    , temp = "Temp"
     }
 
 
@@ -60,9 +63,17 @@ model =
 -- ACTION, UPDATE
 
 
+initialCmd : Cmd Msg
+initialCmd =
+    "http://localhost:8000/data.json"
+        |> Http.getString
+        |> Http.send (\result -> LoadData result)
+
+
 type Msg
     = Mdl (Material.Msg Msg) {- Boilerplate: Msg clause for internal Mdl messages. -}
     | ChangeAddress String
+    | LoadData (Result Http.Error String)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -76,6 +87,14 @@ update msg model =
             ( { model | address = Just str }
             , Cmd.none
             )
+
+        LoadData result ->
+            case result of
+                Ok responseStr ->
+                    ( { model | temp = responseStr }, Cmd.none )
+
+                Err httpError ->
+                    ( { model | temp = "ERROR" }, Cmd.none )
 
 
 
@@ -119,28 +138,29 @@ view : Model -> Html Msg
 view model =
     div
         [ style [ ( "padding", "2rem" ) ] ]
-        ([ Options.styled p
+        [ text model.temp
+        , Options.styled p
             [ Typography.subhead ]
             [ text "Enter the address to a JSON resource, for example, http://example.com/data.json." ]
-           {- We construct the instances of the Button component that we need, one
-              for the increase button, one for the reset button. First, the increase
-              button. The first three arguments are:
+          {- We construct the instances of the Button component that we need, one
+             for the increase button, one for the reset button. First, the increase
+             button. The first three arguments are:
 
-                - A Msg constructor (`Mdl`), lifting Mdl messages to the Msg type.
-                - An instance id (the `[0]`). Every component that uses the same model
-                  collection (model.mdl in this file) must have a distinct instance id.
-                - A reference to the elm-mdl model collection (`model.mdl`).
+               - A Msg constructor (`Mdl`), lifting Mdl messages to the Msg type.
+               - An instance id (the `[0]`). Every component that uses the same model
+                 collection (model.mdl in this file) must have a distinct instance id.
+               - A reference to the elm-mdl model collection (`model.mdl`).
 
-              Notice that we do not have to add fields for the increase and reset buttons
-              separately to our model; and we did not have to add to our update messages
-              to handle their internal events.
+             Notice that we do not have to add fields for the increase and reset buttons
+             separately to our model; and we did not have to add to our update messages
+             to handle their internal events.
 
-              Mdl components are configured with `Options`, similar to `Html.Attributes`.
-              The `Options.onClick Increase` option instructs the button to send the `Increase`
-              message when clicked. The `css ...` option adds CSS styling to the button.
-              See `Material.Options` for details on options.
-           -}
-         , Textfield.render Mdl
+             Mdl components are configured with `Options`, similar to `Html.Attributes`.
+             The `Options.onClick Increase` option instructs the button to send the `Increase`
+             message when clicked. The `css ...` option adds CSS styling to the button.
+             See `Material.Options` for details on options.
+          -}
+        , Textfield.render Mdl
             [ 0 ]
             model.mdl
             [ Textfield.label "Address"
@@ -157,13 +177,13 @@ view model =
             , Options.onInput ChangeAddress
             ]
             []
-         , Button.render Mdl
+        , Button.render Mdl
             [ 1 ]
             model.mdl
             [ css "margin" "0 24px"
             ]
             [ text "Display Data" ]
-         , Options.div
+        , Options.div
             [ css "display" "flex"
             , css "flex-flow" "row wrap"
             , css "justify-content" "flex-start"
@@ -172,8 +192,7 @@ view model =
             , css "margin-top" "4rem"
             ]
             (List.map viewCard model.cards)
-         ]
-        )
+        ]
         |> Material.Scheme.top
 
 
@@ -186,7 +205,7 @@ view model =
 main : Program Never Model Msg
 main =
     Html.program
-        { init = ( model, Cmd.none )
+        { init = ( initialModel, initialCmd )
         , update = update
         , subscriptions = always Sub.none
         , view = view
