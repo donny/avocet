@@ -32,7 +32,6 @@ type alias Card =
 type alias Model =
     { mdl : Material.Model {- Boilerplate: model store for any and all Mdl components you use. -}
     , cards : List Card
-    , count : Int
     , address : String
     }
 
@@ -51,7 +50,6 @@ model =
         , { title = "Title8", text = "Text8" }
         , { title = "Title9", text = "Text9" }
         ]
-    , count = 0
     , address = ""
     }
 
@@ -62,9 +60,7 @@ model =
 
 type Msg
     = Mdl (Material.Msg Msg) {- Boilerplate: Msg clause for internal Mdl messages. -}
-    | Increase
-    | Reset
-    | Input String
+    | ChangeAddress String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -74,17 +70,7 @@ update msg model =
         Mdl msg_ ->
             Material.update Mdl msg_ model
 
-        Increase ->
-            ( { model | count = model.count + 1 }
-            , Cmd.none
-            )
-
-        Reset ->
-            ( { model | count = 0 }
-            , Cmd.none
-            )
-
-        Input str ->
+        ChangeAddress str ->
             ( { model | address = str }
             , Cmd.none
             )
@@ -102,10 +88,8 @@ viewCard : Card -> Html Msg
 viewCard card =
     Card.view
         [ css "width" "192px"
-          -- , css "height" "192px"
         , css "margin" "16px 16px 16px 16px"
         , Color.background (Color.color Color.LightBlue Color.S400)
-        , Options.onClick Increase
         ]
         [ Card.title [] [ Card.head [ white ] [ text card.title ] ]
         , Card.text [ Card.expand ] [ text card.text ]
@@ -133,8 +117,9 @@ view : Model -> Html Msg
 view model =
     div
         [ style [ ( "padding", "2rem" ) ] ]
-        ([ text ("Current count: " ++ toString model.count)
-         , text ("Address: " ++ toString model.address)
+        ([ Options.styled p
+            [ Typography.subhead ]
+            [ text "Enter the address to a JSON resource, for example, http://example.com/data.json." ]
            {- We construct the instances of the Button component that we need, one
               for the increase button, one for the reset button. First, the increase
               button. The first three arguments are:
@@ -153,26 +138,22 @@ view model =
               message when clicked. The `css ...` option adds CSS styling to the button.
               See `Material.Options` for details on options.
            -}
-         , Button.render Mdl
-            [ 0 ]
-            model.mdl
-            [ Options.onClick Increase
-            , css "margin" "0 24px"
-            ]
-            [ text "Increase" ]
-         , Button.render Mdl
-            [ 1 ]
-            model.mdl
-            [ Options.onClick Reset ]
-            [ text "Reset" ]
          , Textfield.render Mdl
-            [ 2 ]
+            [ 0 ]
             model.mdl
             [ Textfield.label "Address"
             , Textfield.floatingLabel
-            , Options.onInput Input
+            , Textfield.text_
+            , Textfield.value model.address
+            , Options.onInput ChangeAddress
             ]
             []
+         , Button.render Mdl
+            [ 1 ]
+            model.mdl
+            [ css "margin" "0 24px"
+            ]
+            [ text "Display Data" ]
          , Options.div
             [ css "display" "flex"
             , css "flex-flow" "row wrap"
