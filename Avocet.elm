@@ -105,8 +105,8 @@ type alias Mdl =
     Material.Model
 
 
-viewCard : Card -> Html Msg
-viewCard card =
+viewCard : Model -> Card -> Html Msg
+viewCard model card =
     Card.view
         [ css "width" "192px"
         , css "margin" "16px 16px 16px 16px"
@@ -191,7 +191,7 @@ view model =
             , css "width" "100%"
             , css "margin-top" "4rem"
             ]
-            (List.map viewCard model.cards)
+            (List.map (viewCard model) model.cards)
         ]
         |> Material.Scheme.top
 
