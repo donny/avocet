@@ -13,6 +13,8 @@ import Material.Options as Options
 import Material.Color as Color
 import Material.Icon as Icon
 import Http
+import Json.Decode exposing (string, int, list, Decoder)
+import Json.Decode.Pipeline exposing (decode, required, optional)
 
 
 white : Options.Property c m
@@ -22,6 +24,13 @@ white =
 
 
 -- MODEL
+
+
+cardDecoder : Decoder Card
+cardDecoder =
+    decode Card
+        |> required "title" string
+        |> required "text" string
 
 
 type alias Card =
@@ -65,8 +74,8 @@ initialModel =
 
 initialCmd : String -> Cmd Msg
 initialCmd address =
-    address
-        |> Http.getString
+    list cardDecoder
+        |> Http.get address
         |> Http.send (\result -> LoadData result)
 
 
@@ -74,7 +83,7 @@ type Msg
     = Mdl (Material.Msg Msg) {- Boilerplate: Msg clause for internal Mdl messages. -}
     | ChangeAddress String
     | FetchData
-    | LoadData (Result Http.Error String)
+    | LoadData (Result Http.Error (List Card))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -102,11 +111,11 @@ update msg model =
 
         LoadData result ->
             case result of
-                Ok responseStr ->
-                    ( { model | temp = responseStr }, Cmd.none )
+                Ok responseCards ->
+                    ( { model | cards = responseCards }, Cmd.none )
 
                 Err httpError ->
-                    ( { model | temp = "ERROR" }, Cmd.none )
+                    ( { model | temp = "ERROR", cards = [] }, Cmd.none )
 
 
 
