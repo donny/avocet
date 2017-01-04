@@ -33,6 +33,7 @@ cardDecoder =
         |> required "text" string
         |> optional "footer" string ""
         |> optional "icon" string ""
+        |> optional "color" string "Grey"
 
 
 type alias Card =
@@ -40,6 +41,7 @@ type alias Card =
     , text : String
     , footer : String
     , icon : String
+    , color : String
     }
 
 
@@ -56,13 +58,77 @@ initialModel : Model
 initialModel =
     { mdl = Material.model {- Boilerplate: always use this initial Mdl model store. -}
     , cards =
-        [ { title = "Title1", text = "Text1", footer = "Footer", icon = "phone" }
-        , { title = "Title2", text = "Text2", footer = "Footer", icon = "phone" }
+        [ { title = "Title1", text = "Text1", footer = "Footer", icon = "phone", color = "red" }
+        , { title = "Title2", text = "Text2", footer = "Footer", icon = "phone", color = "red" }
         ]
     , address = Nothing
     , error = Nothing
     , temp = "Temp"
     }
+
+
+colorHue : String -> Color.Hue
+colorHue name =
+    case name of
+        "Indigo" ->
+            Color.Indigo
+
+        "Blue" ->
+            Color.Blue
+
+        "LightBlue" ->
+            Color.LightBlue
+
+        "Cyan" ->
+            Color.Cyan
+
+        "Teal" ->
+            Color.Teal
+
+        "Green" ->
+            Color.Green
+
+        "LightGreen" ->
+            Color.LightGreen
+
+        "Lime" ->
+            Color.Lime
+
+        "Yellow" ->
+            Color.Yellow
+
+        "Amber" ->
+            Color.Amber
+
+        "Orange" ->
+            Color.Orange
+
+        "Brown" ->
+            Color.Brown
+
+        "BlueGrey" ->
+            Color.BlueGrey
+
+        "Grey" ->
+            Color.Grey
+
+        "DeepOrange" ->
+            Color.DeepOrange
+
+        "Red" ->
+            Color.Red
+
+        "Pink" ->
+            Color.Pink
+
+        "Purple" ->
+            Color.Purple
+
+        "DeepPurple" ->
+            Color.DeepPurple
+
+        _ ->
+            Color.Grey
 
 
 
@@ -128,7 +194,7 @@ viewCard model card =
     Card.view
         [ css "width" "200px"
         , css "margin" "16px 16px 16px 16px"
-        , Color.background (Color.color Color.LightBlue Color.S400)
+        , Color.background (Color.color (colorHue card.color) Color.S400)
         ]
         [ Card.title [] [ Card.head [ white ] [ text card.title ] ]
         , Card.text [ Card.expand ] [ text card.text ]
