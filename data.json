@@ -1,5 +1,7 @@
 [
-  {"title": "Title1", "text": "Text1"},
-  {"title": "Title2", "text": "Text2"},
-  {"title": "Title3", "text": "Text3"}
+  {"title": "Title1", "text": "Text1", "footer": "Footer1", "icon": "phone" },
+  {"title": "Title2", "text": "Text2", "footer": "", "icon": "phone" },
+  {"title": "Title3", "text": "Text3", "icon": "phone" },
+  {"title": "Title4", "text": "Text4"},
+  {"title": "Title5", "text": "Text5", "footer": "Footer", "icon": "" }
 ]

@@ -31,11 +31,15 @@ cardDecoder =
     decode Card
         |> required "title" string
         |> required "text" string
+        |> optional "footer" string ""
+        |> optional "icon" string ""
 
 
 type alias Card =
     { title : String
     , text : String
+    , footer : String
+    , icon : String
     }
 
 
@@ -52,15 +56,8 @@ initialModel : Model
 initialModel =
     { mdl = Material.model {- Boilerplate: always use this initial Mdl model store. -}
     , cards =
-        [ { title = "Title1", text = "Text1" }
-        , { title = "Title2", text = "Text2" }
-        , { title = "Title3", text = "Text3" }
-        , { title = "Title4", text = "Text4" }
-        , { title = "Title5", text = "Non-alcoholic syrup used for both its tart and sweet flavour as well as its deep red color. Non-alcoholic syrup used for both its tart and sweet flavour as well as its deep red color." }
-        , { title = "Title6", text = "Text6" }
-        , { title = "Title7", text = "Text7" }
-        , { title = "Title8", text = "Text8" }
-        , { title = "Title9", text = "Text9" }
+        [ { title = "Title1", text = "Text1", footer = "Footer", icon = "phone" }
+        , { title = "Title2", text = "Text2", footer = "Footer", icon = "phone" }
         ]
     , address = Nothing
     , error = Nothing
@@ -129,7 +126,7 @@ type alias Mdl =
 viewCard : Model -> Card -> Html Msg
 viewCard model card =
     Card.view
-        [ css "width" "192px"
+        [ css "width" "200px"
         , css "margin" "16px 16px 16px 16px"
         , Color.background (Color.color Color.LightBlue Color.S400)
         ]
@@ -145,12 +142,14 @@ viewCard model card =
             , css "padding" "8px 16px 8px 16px"
             , white
             ]
-            [ Options.span [ Typography.caption, Typography.contrast 0.87 ] [ text "August 3, 2016" ]
+            [ Options.span
+                [ Typography.caption, Typography.contrast 0.87 ]
+                [ text card.footer ]
             , Button.render Mdl
-                [ 1 ]
+                []
                 model.mdl
-                [ Button.icon, Button.ripple ]
-                [ Icon.i "phone" ]
+                [ Button.icon, Button.disabled ]
+                [ Icon.i card.icon ]
             ]
         ]
 
