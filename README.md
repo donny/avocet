@@ -15,7 +15,7 @@ The app accepts a JSON resource URL and displays the information as cards using 
 
 The JSON file itself must be of the following structure:
 
-```json
+```JSON
 [
   {"title": "Title", "text": "Background is Indigo", "footer": "Icon: error", "icon": "error", "color": "Indigo" },
   {"title": "Title", "text": "Background is Blue", "footer": "Icon: warning", "icon": "warning", "color": "Blue" }
@@ -24,10 +24,20 @@ The JSON file itself must be of the following structure:
 
 It's an array of objects where each object has 5 fields: `title`, `text`, `footer`, `icon` (one of the [Material icons](https://material.io/icons/)), and `color` (one of the [Material colors](https://material.io/guidelines/style/color.html)).
 
-This app allows us to provide the *display component* for subsequent projects. In other words, if we build APIs in future projects, we can use [Avocet](https://github.com/donny/avocet) to consume and visualise the data in a human-friendly way.
-
-The app can be deployed to Heroku with little or no configuration.
+This app allows us to provide the *display component* for subsequent projects. In other words, if we build APIs in future projects, we can use [Avocet](https://github.com/donny/avocet) to consume and visualise the data in a human-friendly way. The app can be deployed to Heroku with little or no configuration.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ### Implementation
+
+The `card` data structure is represented by the following Elm record:
+
+```Elm
+type alias Card =
+    { title : String
+    , text : String
+    , footer : String
+    , icon : String
+    , color : String
+    }
+```
