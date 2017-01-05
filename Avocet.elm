@@ -17,12 +17,6 @@ import Json.Decode exposing (string, int, list, Decoder)
 import Json.Decode.Pipeline exposing (decode, required, optional)
 
 
-white : Options.Property c m
-white =
-    Color.text Color.white
-
-
-
 -- MODEL
 
 
@@ -196,26 +190,22 @@ viewCard model card =
         , css "margin" "16px 16px 16px 16px"
         , Color.background (Color.color (colorHue card.color) Color.S400)
         ]
-        [ Card.title [] [ Card.head [ white ] [ text card.title ] ]
+        [ Card.title [] [ Card.head [ Color.text Color.white ] [ text card.title ] ]
         , Card.text [ Card.expand ] [ text card.text ]
           -- Filler
         , Card.actions
             [ Card.border
+            , Color.text Color.white
               -- Modify flexbox to accomodate small text in action block
             , css "display" "flex"
             , css "justify-content" "space-between"
             , css "align-items" "center"
             , css "padding" "8px 16px 8px 16px"
-            , white
             ]
             [ Options.span
-                [ Typography.caption, Typography.contrast 0.87 ]
+                [ Typography.body1, Typography.contrast 0.87 ]
                 [ text card.footer ]
-            , Button.render Mdl
-                []
-                model.mdl
-                [ Button.icon, Button.disabled ]
-                [ Icon.i card.icon ]
+            , Icon.i card.icon
             ]
         ]
 

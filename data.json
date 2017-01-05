@@ -1,7 +1,21 @@
 [
-  {"title": "Title1", "text": "Text1", "footer": "Footer1", "icon": "phone", "color": "Red" },
-  {"title": "Title2", "text": "Text2", "footer": "", "icon": "phone", "color": "Lime" },
-  {"title": "Title3", "text": "Text3", "icon": "phone" },
-  {"title": "Title4", "text": "Text4"},
-  {"title": "Title5", "text": "Text5", "footer": "Footer", "icon": "" }
+  {"title": "Title", "text": "Background is Indigo", "footer": "Icon: error", "icon": "error", "color": "Indigo" },
+  {"title": "Title", "text": "Background is Blue", "footer": "Icon: warning", "icon": "warning", "color": "Blue" },
+  {"title": "Title", "text": "Background is LightBlue", "footer": "Icon: business", "icon": "business", "color": "LightBlue" },
+  {"title": "Title", "text": "Background is Cyan", "footer": "Icon: contact_mail", "icon": "contact_mail", "color": "Cyan" },
+  {"title": "Title", "text": "Background is Teal", "footer": "Icon: add_box", "icon": "add_box", "color": "Teal" },
+  {"title": "Title", "text": "Background is Green", "footer": "Icon: content_cut", "icon": "content_cut", "color": "Green" },
+  {"title": "Title", "text": "Background is LightGreen", "footer": "Icon: remove_circle", "icon": "remove_circle", "color": "LightGreen" },
+  {"title": "Title", "text": "Background is Lime", "footer": "Icon: weekend", "icon": "weekend", "color": "Lime" },
+  {"title": "Title", "text": "Background is Yellow", "footer": "Icon: battery_full", "icon": "battery_full", "color": "Yellow" },
+  {"title": "Title", "text": "Background is Amber", "footer": "Icon: bluetooth", "icon": "bluetooth", "color": "Amber" },
+  {"title": "Title", "text": "Background is Orange", "footer": "Icon: developer_mode", "icon": "developer_mode", "color": "Orange" },
+  {"title": "Title", "text": "Background is Brown", "footer": "Icon: devices", "icon": "devices", "color": "Brown" },
+  {"title": "Title", "text": "Background is BlueGrey", "footer": "Icon: attach_file", "icon": "attach_file", "color": "BlueGrey" },
+  {"title": "Title", "text": "Background is Grey", "footer": "Icon: bubble_chart", "icon": "bubble_chart", "color": "Grey" },
+  {"title": "Title", "text": "Background is DeepOrange", "footer": "Icon: cloud_done", "icon": "cloud_done", "color": "DeepOrange" },
+  {"title": "Title", "text": "Background is Red", "footer": "Icon: phone_iphone", "icon": "phone_iphone", "color": "Red" },
+  {"title": "Title", "text": "Background is Pink", "footer": "Icon: security", "icon": "security", "color": "Pink" },
+  {"title": "Title", "text": "Background is Purple", "footer": "Icon: grid_one", "icon": "grid_one", "color": "Purple" },
+  {"title": "Title", "text": "Background is DeepPurple", "footer": "Icon: child_friendly", "icon": "child_friendly", "color": "DeepPurple" }
 ]
