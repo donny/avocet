@@ -47,14 +47,16 @@ type alias Model =
     }
 
 
+initialAddress : String
+initialAddress =
+    "https://fiftytwo-avocet.herokuapp.com/example.json"
+
+
 initialModel : Model
 initialModel =
     { mdl = Material.model {- Boilerplate: always use this initial Mdl model store. -}
-    , cards =
-        [ { title = "Title1", text = "Text1", footer = "Footer", icon = "phone", color = "red" }
-        , { title = "Title2", text = "Text2", footer = "Footer", icon = "phone", color = "red" }
-        ]
-    , address = Nothing
+    , cards = []
+    , address = Just initialAddress
     , error = Nothing
     }
 
@@ -225,7 +227,7 @@ view model =
             ]
         , Options.styled p
             [ Typography.subhead, Color.text Color.primary ]
-            [ text "Enter the address to a JSON resource, for example, http://example.com/data.json." ]
+            [ text "Enter the address to a JSON resource:" ]
           {- We construct the instances of the Button component that we need, one
              for the increase button, one for the reset button. First, the increase
              button. The first three arguments are:
@@ -290,7 +292,7 @@ view model =
 main : Program Never Model Msg
 main =
     Html.program
-        { init = ( initialModel, initialCmd "http://localhost:8000/example.json" )
+        { init = ( initialModel, initialCmd initialAddress )
         , update = update
         , subscriptions = always Sub.none
         , view = view
