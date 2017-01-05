@@ -44,7 +44,6 @@ type alias Model =
     , cards : List Card
     , address : Maybe String
     , error : Maybe String
-    , temp : String
     }
 
 
@@ -57,7 +56,6 @@ initialModel =
         ]
     , address = Nothing
     , error = Nothing
-    , temp = "Temp"
     }
 
 
@@ -172,7 +170,7 @@ update msg model =
                     ( { model | cards = responseCards }, Cmd.none )
 
                 Err httpError ->
-                    ( { model | temp = "ERROR", cards = [] }, Cmd.none )
+                    ( { model | error = Just (toString httpError), cards = [] }, Cmd.none )
 
 
 
@@ -216,7 +214,15 @@ view model =
         [ style [ ( "padding", "2rem" ) ] ]
         [ Options.styled p
             [ Typography.subhead, Color.text (Color.color Color.Red Color.S500) ]
-            [ text ("Error: " ++ model.temp) ]
+            [ text
+                (case model.error of
+                    Nothing ->
+                        ""
+
+                    Just message ->
+                        "Error: " ++ message
+                )
+            ]
         , Options.styled p
             [ Typography.subhead, Color.text Color.primary ]
             [ text "Enter the address to a JSON resource, for example, http://example.com/data.json." ]
