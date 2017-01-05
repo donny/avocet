@@ -15,7 +15,7 @@ The app accepts a JSON resource URL and displays the information as cards using 
 
 The JSON file itself must be of the following structure:
 
-```JSON
+```javascript
 [
   {"title": "Title", "text": "Background is Indigo", "footer": "Icon: error", "icon": "error", "color": "Indigo" },
   {"title": "Title", "text": "Background is Blue", "footer": "Icon: warning", "icon": "warning", "color": "Blue" }
@@ -32,7 +32,7 @@ This app allows us to provide the *display component* for subsequent projects. I
 
 The `card` data structure is represented by the following Elm record:
 
-```Elm
+```elm
 type alias Card =
     { title : String
     , text : String
