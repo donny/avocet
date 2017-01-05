@@ -87,4 +87,6 @@ viewCard model card =
 
 The CSS is incorporated as Elm code which is okay for small scale projects. I do find the examples of [elm-mdl](https://github.com/debois/elm-mdl/tree/master/examples) to be really valuable in understanding how it works.
 
-In general, I like using elm-mdl and it feels nicer compared to using Bootstrap 4 (in my previous Elm [project](https://github.com/donny/elmutt)).
+### Conclusion
+
+In general, I like using [elm-mdl](https://debois.github.io/elm-mdl/) and it feels nicer compared to using Bootstrap 4 (in my previous [Elm project](https://github.com/donny/elmutt)). And definitely, I'll be using [elm-decode-pipeline](https://github.com/NoRedInk/elm-decode-pipeline) to decode JSON in my future Elm projects. So much better!
