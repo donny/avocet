@@ -20,14 +20,8 @@ import Json.Decode.Pipeline exposing (decode, required, optional)
 -- MODEL
 
 
-cardDecoder : Decoder Card
-cardDecoder =
-    decode Card
-        |> required "title" string
-        |> required "text" string
-        |> optional "footer" string ""
-        |> optional "icon" string ""
-        |> optional "color" string "Grey"
+type alias Mdl =
+    Material.Model
 
 
 type alias Card =
@@ -47,6 +41,10 @@ type alias Model =
     }
 
 
+
+-- INITIAL
+
+
 initialAddress : String
 initialAddress =
     "https://fiftytwo-avocet.herokuapp.com/example.json"
@@ -59,6 +57,27 @@ initialModel =
     , address = Just initialAddress
     , error = Nothing
     }
+
+
+initialCmd : String -> Cmd Msg
+initialCmd address =
+    list cardDecoder
+        |> Http.get address
+        |> Http.send (\result -> LoadData result)
+
+
+
+-- MISCELLANEOUS
+
+
+cardDecoder : Decoder Card
+cardDecoder =
+    decode Card
+        |> required "title" string
+        |> required "text" string
+        |> optional "footer" string ""
+        |> optional "icon" string ""
+        |> optional "color" string "Grey"
 
 
 colorHue : String -> Color.Hue
@@ -129,13 +148,6 @@ colorHue name =
 -- ACTION, UPDATE
 
 
-initialCmd : String -> Cmd Msg
-initialCmd address =
-    list cardDecoder
-        |> Http.get address
-        |> Http.send (\result -> LoadData result)
-
-
 type Msg
     = Mdl (Material.Msg Msg) {- Boilerplate: Msg clause for internal Mdl messages. -}
     | ChangeAddress String
@@ -177,10 +189,6 @@ update msg model =
 
 
 -- VIEW
-
-
-type alias Mdl =
-    Material.Model
 
 
 viewCard : Model -> Card -> Html Msg
@@ -228,24 +236,6 @@ view model =
         , Options.styled p
             [ Typography.subhead, Color.text Color.primary ]
             [ text "Enter the address to a JSON resource:" ]
-          {- We construct the instances of the Button component that we need, one
-             for the increase button, one for the reset button. First, the increase
-             button. The first three arguments are:
-
-               - A Msg constructor (`Mdl`), lifting Mdl messages to the Msg type.
-               - An instance id (the `[0]`). Every component that uses the same model
-                 collection (model.mdl in this file) must have a distinct instance id.
-               - A reference to the elm-mdl model collection (`model.mdl`).
-
-             Notice that we do not have to add fields for the increase and reset buttons
-             separately to our model; and we did not have to add to our update messages
-             to handle their internal events.
-
-             Mdl components are configured with `Options`, similar to `Html.Attributes`.
-             The `Options.onClick Increase` option instructs the button to send the `Increase`
-             message when clicked. The `css ...` option adds CSS styling to the button.
-             See `Material.Options` for details on options.
-          -}
         , Textfield.render Mdl
             [ 0 ]
             model.mdl
@@ -281,12 +271,6 @@ view model =
             (List.map (viewCard model) model.cards)
         ]
         |> Material.Scheme.top
-
-
-
--- Load Google Mdl CSS. You'll likely want to do that not in code as we
--- do here, but rather in your master .html file. See the documentation
--- for the `Material` module for details.
 
 
 main : Program Never Model Msg
