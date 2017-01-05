@@ -284,7 +284,7 @@ view model =
 main : Program Never Model Msg
 main =
     Html.program
-        { init = ( initialModel, initialCmd "http://localhost:8000/data.json" )
+        { init = ( initialModel, initialCmd "http://localhost:8000/example.json" )
         , update = update
         , subscriptions = always Sub.none
         , view = view
