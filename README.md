@@ -1,6 +1,6 @@
 # avocet
 
-A Visualisation Of Collected Enteresting [*sic*] Things (avocet) is a single page web app written in [Elm](http://elm-lang.org) that displays various user-defined information in JSON as cards (like a status board).
+A Visualisation Of Collected Enteresting [*sic*] Things (Avocet) is a single page web app written in [Elm](http://elm-lang.org) that displays various user-defined information in JSON as cards (like a status board).
 
 ### Background
 
