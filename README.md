@@ -55,7 +55,7 @@ cardDecoder =
         |> optional "color" string "Grey"
 ```
 
-The JSON decoder code above looks really nice and simpler compared to using the built-in Elm `map` function. Each individual `card` is displayed using the following code:
+The JSON decoder code above looks really nice and simpler compared to using the built-in Elm `map` function. And then, using the [elm-mdl](https://debois.github.io/elm-mdl/) library, we display each individual `card` with the following code:
 
 ```elm
 viewCard : Model -> Card -> Html Msg
@@ -85,8 +85,15 @@ viewCard model card =
         ]
 ```
 
-The CSS is incorporated as Elm code which is okay for small scale projects. I do find the examples of [elm-mdl](https://github.com/debois/elm-mdl/tree/master/examples) to be really valuable in understanding how it works.
+We can understand the code above by putting it side by side with the screenshot, and follow the lines. The CSS style is incorporated as Elm code which makes it easier to modify in one single file and we don't need to use CSS preprocessors. I think this is okay for small scale projects. I do find the examples of [elm-mdl](https://github.com/debois/elm-mdl/tree/master/examples) to be really valuable in understanding how it works. Specifically, we can compare how the Elm `Counter` example works [with](https://github.com/debois/elm-mdl/blob/master/examples/Counter.elm) and [without](https://github.com/debois/elm-mdl/blob/master/examples/Counter-no-shorthand.elm) elm-mdl's syntactic sugar.
 
 ### Conclusion
 
 In general, I like using [elm-mdl](https://debois.github.io/elm-mdl/) and it feels nicer compared to using Bootstrap 4 (in my previous [Elm project](https://github.com/donny/elmutt)). And definitely, I'll be using [elm-decode-pipeline](https://github.com/NoRedInk/elm-decode-pipeline) to decode JSON in my future Elm projects. So much better!
+
+Elm itself is amazing. I do enjoy writing Elm and the compiler catches many common mistakes. Once it compiles the code successfully, I can be assured that it works, and I can refactor the code confidently. More information about Elm itself:
+
+- [An Introduction to Elm](https://guide.elm-lang.org)
+- [Elm in Action](https://www.manning.com/books/elm-in-action)
+- [Elm Tutorial](https://www.elm-tutorial.org/en/)
+- [Awesome Elm](https://github.com/isRuslan/awesome-elm)
